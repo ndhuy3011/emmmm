@@ -1,0 +1,205 @@
+:root {
+    --bg-dark: #05020a;
+    --rose-gold: #f4a298;
+    --rose-gold-light: #ffdcd7;
+    --gold: #d4af37;
+    --glass-bg: rgba(15, 8, 20, 0.4);
+    --glass-border: rgba(244, 162, 152, 0.2);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-dark);
+    font-family: 'Montserrat', sans-serif;
+    color: #e5e5e5;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+}
+
+/* Background Canvas */
+#bg-canvas {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 1; pointer-events: none;
+}
+
+/* Mouse Ambient Glow Effect */
+.ambient-glow {
+    position: fixed; width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(244, 162, 152, 0.1) 0%, transparent 60%);
+    pointer-events: none; transform: translate(-50%, -50%); z-index: 2;
+    transition: width 0.3s, height 0.3s;
+}
+
+/* The Unveiling Door / Intro */
+.intro-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 100; transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1); background: var(--bg-dark);
+}
+
+.glowing-gem {
+    width: 90px; height: 90px;
+    background: linear-gradient(135deg, rgba(244,162,152,0.15), transparent);
+    border: 1px solid var(--rose-gold); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; box-shadow: 0 0 30px rgba(244,162,152,0.3), inset 0 0 20px rgba(244,162,152,0.2);
+    animation: gemPulse 2.5s infinite ease-in-out;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.glowing-gem:hover { transform: scale(1.15); box-shadow: 0 0 50px rgba(244,162,152,0.7); }
+.gem-heart { width: 40px; height: 40px; fill: var(--rose-gold-light); }
+
+@keyframes gemPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(244,162,152,0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 0 45px rgba(244,162,152,0.6); }
+}
+
+.intro-text {
+    margin-top: 35px; font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; letter-spacing: 5px; color: var(--rose-gold-light);
+    text-transform: uppercase; animation: fadeInOut 4s infinite;
+}
+@keyframes fadeInOut { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+/* App Layout & 3D Environment */
+.app-container {
+    position: relative; width: 100%; max-width: 600px;
+    height: 100vh; padding: 20px; z-index: 10;
+    display: flex; justify-content: center; align-items: center;
+    perspective: 1200px; transition: opacity 2s ease-in-out;
+}
+.tilt-wrapper {
+    width: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.1s ease-out; 
+}
+.card-stack { position: relative; width: 100%; display: flex; flex-direction: column; }
+
+/* Supreme Luxury Frost Card */
+.premium-card {
+    background: var(--glass-bg); border-radius: 24px; padding: 50px 40px;
+    backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(244,162,152,0.05);
+    border: 1px solid var(--glass-border);
+    position: relative; width: 100%;
+    max-height: 85vh; overflow-y: auto; overflow-x: hidden;
+    transform-style: preserve-3d; transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.premium-card::-webkit-scrollbar { width: 5px; }
+.premium-card::-webkit-scrollbar-track { background: transparent; }
+.premium-card::-webkit-scrollbar-thumb { background: rgba(244,162,152,0.3); border-radius: 6px; }
+
+.premium-card.hidden {
+    opacity: 0; pointer-events: none; position: absolute; top: 0; left: 0; right: 0;
+    transform: translateY(60px) translateZ(-100px) rotateX(-10deg);
+}
+.premium-card.active-card { opacity: 1; pointer-events: auto; transform: translateY(0) translateZ(30px) rotateX(0); }
+
+
+
+/* Typography Overhaul */
+.luxury-header {
+    display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 25px;
+}
+.gold-line { height: 1px; width: 40px; background: linear-gradient(90deg, transparent, var(--rose-gold), transparent); }
+.subtitle {
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 4px;
+    color: var(--rose-gold-light); text-transform: uppercase; opacity: 0.8;
+}
+
+.cinematic-title {
+    font-family: 'Playfair Display', serif; font-size: 3.2rem;
+    font-style: italic; text-align: center; margin-bottom: 30px;
+    line-height: 1.1; font-weight: 600;
+}
+.rose-gold {
+    background: linear-gradient(135deg, #fff 0%, #f4a298 60%, #c47c72 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-shadow: 0 6px 20px rgba(244,162,152,0.3);
+}
+
+/* Quiz UI with Internal Spotlight Tracker */
+.quiz-question {
+    font-size: 1.4rem; font-weight: 400; text-align: center; color: #fff; 
+    margin-bottom: 35px; line-height: 1.5; font-family: 'Playfair Display', serif;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 16px; }
+
+.quiz-options button {
+    position: relative; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+    padding: 20px 25px; font-size: 1.1rem; color: #eaeaea; font-family: 'Montserrat', sans-serif;
+    cursor: pointer; text-align: left; overflow: hidden; font-weight: 400; transition: all 0.3s ease;
+}
+/* Magic Mouse-Tracking Glow! */
+.quiz-options button::before {
+    content: ''; position: absolute;
+    top: var(--y, 50%); left: var(--x, 50%); transform: translate(-50%, -50%);
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(244,162,152,0.2) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+.quiz-options button:hover { background: rgba(255,255,255,0.06); border-color: rgba(244,162,152,0.4); box-shadow: 0 10px 20px rgba(0,0,0,0.2); transform: translateY(-2px);}
+.quiz-options button:hover::before { opacity: 1; }
+
+.quiz-options button.correct { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.08); }
+.quiz-options button.wrong { border-color: #ef4444; color: #ef4444; animation: cinematicShake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+
+@keyframes cinematicShake {
+    10%, 90% { transform: translate3d(-2px, 0, 0); }
+    20%, 80% { transform: translate3d(4px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+    40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+.feedback-text { text-align: center; margin-top: 30px; min-height: 20px; font-weight: 500; font-size: 1.05rem; color: var(--rose-gold-light); letter-spacing: 1px; }
+
+/* Artwork Styles */
+.art-illustration {
+    width: 100%; display: flex; justify-content: center; margin-bottom: 25px;
+}
+.beautiful-art {
+    width: 100%; max-width: 380px; height: auto; border-radius: 20px; object-fit: contain;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(244,162,152,0.3);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.4, 1.2), box-shadow 0.5s ease;
+}
+.beautiful-art:hover {
+    transform: scale(1.03) translateY(-3px); box-shadow: 0 15px 50px rgba(244,162,152,0.4);
+}
+
+/* The Letter Box */
+.letter-content { margin-bottom: 30px; text-align: justify; }
+.luxury-body { font-size: 1.1rem; line-height: 1.8; color: #d0c2d3; margin-bottom: 25px; font-weight: 300; }
+.luxury-body:last-child { margin-bottom: 0; }
+
+/* Response Box */
+.invite-box {
+    background: linear-gradient(135deg, rgba(244,162,152,0.08), rgba(255,255,255,0.02));
+    border: 1px solid rgba(244,162,152,0.15); border-radius: 16px; padding: 25px; margin-bottom: 30px; text-align: center;
+}
+.invite-box h2 { font-size: 1.25rem; font-weight: 500; color: var(--rose-gold-light); line-height: 1.5; font-family: 'Playfair Display', serif;}
+
+.magnetic-controls { display: flex; gap: 20px; justify-content: center; height: 60px; perspective: 500px;}
+
+.mag-btn {
+    position: relative; flex: 1; border-radius: 12px; cursor: pointer; border: none; font-family: 'Montserrat', sans-serif;
+    font-size: 1.15rem; font-weight: 600; display: flex; justify-content: center; align-items: center;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1.2), box-shadow 0.3s;
+}
+.btn-gold {
+    background: linear-gradient(135deg, #f4a298, #dca39a); color: #1a0b12; box-shadow: 0 10px 30px rgba(244, 162, 152, 0.25);
+}
+.btn-gold:hover { box-shadow: 0 15px 45px rgba(244, 162, 152, 0.5); }
+.btn-ghost {
+    background: transparent; color: var(--rose-gold); border: 1px solid rgba(244, 162, 152, 0.4); backdrop-filter: blur(10px);
+}
+.btn-ghost:hover { border-color: var(--rose-gold); background: rgba(244,162,152,0.05); }
+.btn-content { pointer-events: none; } 
+
+.center-text { text-align: center; }
+.mt-4 { margin-top: 25px; }
+
+@media (max-width: 600px) {
+    .premium-card { padding: 40px 25px; }
+    .cinematic-title { font-size: 2.2rem !important; }
+}
