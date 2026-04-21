@@ -169,7 +169,7 @@ body {
 
 /* The Letter Box */
 .letter-content { margin-bottom: 30px; text-align: justify; }
-.luxury-body { font-size: 1.1rem; line-height: 1.8; color: #d0c2d3; margin-bottom: 25px; font-weight: 300; }
+.luxury-body { font-family: 'Dancing Script', cursive; font-size: 1.6rem; letter-spacing: 0.5px; line-height: 1.6; color: #d0c2d3; margin-bottom: 20px; font-weight: 500; }
 .luxury-body:last-child { margin-bottom: 0; }
 
 /* Response Box */
@@ -200,6 +200,11 @@ body {
 .mt-4 { margin-top: 25px; }
 
 @media (max-width: 600px) {
-    .premium-card { padding: 40px 25px; }
-    .cinematic-title { font-size: 2.2rem !important; }
+    .app-container { padding: 15px; }
+    .premium-card { padding: 30px 20px; max-height: 90vh; }
+    .cinematic-title { font-size: 2rem !important; margin-bottom: 20px; }
+    .luxury-body { font-size: 1.45rem; line-height: 1.5; }
+    .quiz-options button { padding: 15px 20px; font-size: 1.05rem; }
+    .glowing-gem { width: 75px; height: 75px; }
+    .gem-heart { width: 35px; height: 35px; }
 }
